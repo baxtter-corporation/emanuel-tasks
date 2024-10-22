@@ -1,19 +1,20 @@
 import { Link, useParams } from "react-router-dom";
  
-import { handleEditChange } from "../hooks/useHandleEditChange";
-import { ChangeEvent, useState } from "react";
+import { HandleEditChange } from "../hooks/useHandleEditChange";
+import { ChangeEvent, useEffect, useState } from "react";
+import { GetTelephone } from "../hooks/useGetTelephone"; 
 import { Phone } from "../type/Phone";
-import { GetTelephone } from "../hooks/useGetTelephone";
- 
+
 export function TelephoneEditfrm () {
 
   const {phone} = useParams();
   const {listPhone} = GetTelephone(`telephone/${phone}`);
   
- //console.log(listPhone);
+  //const [data, setData] = useState<Phone | null>(null);
 
-  const [data, setData] = useState<Phone>(
+  const [data, setData] = useState<Phone | any>(
     {
+    id: "",
     phone: "",
     name: "", 
     nickname: "", 
@@ -24,14 +25,29 @@ export function TelephoneEditfrm () {
     city: "",
     note: "" }); 
     
+
+      useEffect(() => {
+
+            setData(listPhone);
+         
+      }, [listPhone]);
+
+
+    //console.log("recebendo dados", data.id);    
+         
   
-    console.log("recebendo dados",listPhone?.phone);         
+    const {handleSubmit} = HandleEditChange(data.id,data);
   
-    const {handleSubmit} = handleEditChange(listPhone.id,data);
-  
+/*const handleDataChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      if (data) {
+        const { name, value } = e.target;
+        setData({ ...data, [name]: value });
+      }
+    }*/ 
+
  const handleDataChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
   const {name, value} = e.target;
-  setData((prevState) => ({
+  setData((prevState: any) => ({
       ...prevState, [name]: value
   }));    
 }
@@ -104,10 +120,10 @@ export function TelephoneEditfrm () {
 
           <div className="w-full px-3 mb-6 md md:mb-0">
               <button className="px-4 py-2 mb-6 font-bold text-white bg-purple-500 rounded shadow hover:bg-purple-400 focus:shadow-outline focus:outline-none"
-         type="submit">Salvar</button>
+         type="submit">Actualizar</button>
 
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <Link to="/" className="px-4 py-2 mb-6 font-bold text-white bg-purple-500 rounded shadow hover:bg-purple-400 focus:shadow-outline focus:outline-none">Cancelar</Link>
+          <Link to="/" className="px-4 py-2 mb-6 font-bold text-white bg-purple-500 rounded shadow hover:bg-purple-400 focus:shadow-outline focus:outline-none">Voltar</Link>
 
 </div>
 

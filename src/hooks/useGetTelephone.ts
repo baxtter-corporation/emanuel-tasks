@@ -5,15 +5,15 @@ import { Phone } from "../type/Phone";
 export function GetTelephone(endpoint:string){
     
     const [listPhone, setLista] = useState<Phone[]>([]);
-    //const listPhone: any[] = [];
-    
     
 useEffect(()=> {
     try {
         const fetcher = async() => {
             const {data}  = await axios.get(`${prod}${endpoint}`)
             //listPhone.push(data?.data);
-            setLista(data);
+         /*   setLista(Array.isArray(data) ? data : []);*/
+
+             setLista(data);
 
         }
 

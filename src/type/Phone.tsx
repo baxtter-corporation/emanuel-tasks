@@ -1,7 +1,7 @@
-export type Phone = {
-    id: string,
-    phone?: string,
-    name?: string,
+export type Phone  = {
+    id?: any;
+    phone?: string;
+    name?: string;
     nickname?: string,
     company?: string,
     email?: string,
